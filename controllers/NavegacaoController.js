@@ -1,16 +1,23 @@
 module.exports = function NavegacaoController() {
 
+    function index(request, response) {
+        return response.render("index", {
+            title: "Página Inicial"
+        });
+    }
+
     function usuarios(request, response) {
-        return response.render("users/index");
+        return response.render("users/index", {
+            title: "Lista de Usuários"
+        });
     }
 
     function sobre(request, response) {
-        return response.render("sobre");
+        return response.render("sobre", {
+            title: "Sobre a empresa"
+        });
     }
 
-    function index(request, response) {
-        return response.render("index");
-    }
 
     function notFound(request, response) {
         return response.render("404");

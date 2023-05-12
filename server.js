@@ -12,6 +12,8 @@ app.set("views", [
 ]);
 
 app.use('/', webRouter);
+// app.use('/api', apiRouter);
+
 
 const PORT = 3000;
 
