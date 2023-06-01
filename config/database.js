@@ -2,7 +2,7 @@
 
 const config = {
   mysql: {
-    database: 'nodemvc',
+    database: 'projetoweb',
     user: 'root',
     password: 'root',
     host: '192.168.1.8',
@@ -10,7 +10,7 @@ const config = {
     dialect: 'mysql'
   }, 
   pgsql: {
-    database: 'nodemvc',
+    database: 'projetoweb',
     user: 'root',
     password: 'root',
     host: 'localhost',
