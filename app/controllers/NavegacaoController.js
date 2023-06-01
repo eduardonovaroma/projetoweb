@@ -1,4 +1,4 @@
-module.exports = function NavegacaoController() {
+function NavegacaoController() {
 
     function index(request, response) {
         return response.render("index", {
@@ -32,3 +32,4 @@ module.exports = function NavegacaoController() {
 
 }
 
+module.exports = NavegacaoController();

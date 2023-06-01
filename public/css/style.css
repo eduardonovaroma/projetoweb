@@ -32,7 +32,7 @@
 }
 
 .container {
-    min-height: calc(100vh - 150px - 100px);
+    min-height: calc(100vh - 56px - 100px);
     padding: 50px;
 }
 
@@ -40,4 +40,9 @@
     height: 100px;
     background-color: silver;
     padding: 10px;
+}
+
+.concluido td:not(:last-child) {
+    text-decoration-line: line-through;
+    text-decoration-thickness: 2px;
 }
