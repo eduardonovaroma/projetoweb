@@ -1,14 +1,24 @@
-// Configuração do banco de dados
+const path = require('path');
+const storage_path = path.join(__dirname, '../storage');
 
-const config = {
+// Configuração do banco de dados
+module.exports = {
+  default: 'sqlite',
+
+  sqlite: {
+    dialect: 'sqlite',
+    storage: path.join(storage_path, "database.sqlite")
+  }, 
+
   mysql: {
     database: 'projetoweb',
     user: 'root',
     password: 'root',
-    host: '192.168.1.8',
+    host: 'localhost',
     port: '3306',
     dialect: 'mysql'
   }, 
+
   pgsql: {
     database: 'projetoweb',
     user: 'root',
@@ -18,5 +28,3 @@ const config = {
     dialect: 'pgsql'
   }
 }
-  
-module.exports = config;

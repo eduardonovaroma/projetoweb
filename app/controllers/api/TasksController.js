@@ -24,6 +24,29 @@ function TaskController() {
       .catch((err) => console.log(err))
   }
 
+  async function show(req, res) {
+    const id = req.params.id;
+
+    try {
+
+      const data = await Task.findOne({ where: { id: id }, raw: true });
+
+      if (!data) {
+        return res.status(404).send({
+          message: "Tarefa não encontrada."
+        })
+      }
+
+      res.status(200).json(data);
+
+    } catch (error) {
+      res.status(500).json({
+        message: "Deu M capitão!"
+      });
+    }
+    
+  }
+
   function remove(req, res) {
     const id = req.params.id;
 
@@ -114,6 +137,7 @@ function TaskController() {
     return {
       save,
       list,
+      show,
       remove,
       update,
       updateStatus,

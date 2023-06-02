@@ -1,11 +1,24 @@
 const { Sequelize } = require('sequelize')
 
-const { mysql } = require('../../config/database.js');
+const config = require('../../config/database.js');
+const db = config[config.default];
+let sequelize = null;
 
-const sequelize = new Sequelize(mysql.database, mysql.user, mysql.password, {
-  host: mysql.host,
-  dialect: mysql.dialect,
-});
+if (config.default == 'sqlite') {
+  sequelize = new Sequelize({
+    host: db.host,
+    dialect: db.dialect,
+  });
+
+} else {
+  
+  sequelize = new Sequelize(db.database, db.user, db.password, {
+    host: db.host,
+    dialect: db.dialect,
+  });
+
+}
+
 
 
 async function createDatabase(sequelize) {

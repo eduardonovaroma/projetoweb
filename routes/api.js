@@ -5,6 +5,7 @@ const TasksController = require("../app/controllers/api/TasksController");
 
 // Rotas das Tarefas
 router.get('/tasks', TasksController.list)
+router.get('/tasks/:id', TasksController.show)
 router.post('/tasks', TasksController.save)
 router.delete('/tasks/:id', TasksController.remove)
 router.put('/tasks/:id', TasksController.update)

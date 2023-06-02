@@ -2,6 +2,18 @@ const Task = require('../models/Task');
 
 function TaskController() {
 
+  function list(req, res) {
+    Task.findAll({ raw: true })
+      .then((data) => {
+
+        res.render('tasks/list', { 
+          title: "Lista de Tarefas",
+          tasks: data, 
+        })
+      })
+      .catch((err) => console.log(err))
+  }
+
   function create(req, res) {
     res.render('tasks/create')
   }
@@ -15,24 +27,6 @@ function TaskController() {
 
     Task.create(task)
       .then(res.redirect('/tasks'))
-      .catch((err) => console.log())
-  }
-
-  function list(req, res) {
-    Task.findAll({ raw: true })
-      .then((data) => {
-        let emptyTasks = false
-        console.log(data)
-        if (data.length === 0) {
-          emptyTasks = true
-        }
-
-        res.render('tasks/list', { 
-          title: "Lista de Tarefas",
-          tasks: data, 
-          emptyTasks,
-        })
-      })
       .catch((err) => console.log(err))
   }
 
@@ -41,7 +35,7 @@ function TaskController() {
 
     Task.destroy({ where: { id: id } })
       .then(res.redirect('/tasks'))
-      .catch((err) => console.log())
+      .catch((err) => console.log(err))
   }
 
   function edit(req, res) {
