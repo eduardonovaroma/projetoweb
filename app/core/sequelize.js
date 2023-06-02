@@ -6,7 +6,7 @@ let sequelize = null;
 
 if (config.default == 'sqlite') {
   sequelize = new Sequelize({
-    host: db.host,
+    storage: db.storage,
     dialect: db.dialect,
   });
 
