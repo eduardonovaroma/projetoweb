@@ -4,17 +4,22 @@
   "description": "Servidor Web",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "connect-flash": "^0.1.1",
     "dayjs": "^1.11.7",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mysql2": "^3.3.3",
     "sequelize": "^6.32.0",
     "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

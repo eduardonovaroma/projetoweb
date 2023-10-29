@@ -1,89 +1,59 @@
 const Task = require('../models/Task');
+const useTaskRepository = require("../repositories/TasksRepository");
+
+const tasksRepository = useTaskRepository(); 
 
 function TaskController() {
 
-  function list(req, res) {
-    Task.findAll({ raw: true })
-      .then((data) => {
+  async function list(req, res) {
+    const tasks = await tasksRepository.list();
 
-        res.render('tasks/list', { 
-          title: "Lista de Tarefas",
-          tasks: data, 
-        })
-      })
-      .catch((err) => console.log(err))
+    res.render('tasks/list', { 
+      title: "Lista de Tarefas",
+      tasks: tasks
+    })
   }
 
   function create(req, res) {
     res.render('tasks/create')
   }
 
-  function save(req, res) {
-    const task = {
-      title: req.body.title,
-      description: req.body.description,
-      done: false,
-    }
-
-    Task.create(task)
-      .then(res.redirect('/tasks'))
-      .catch((err) => console.log(err))
+  async function save(req, res) {
+    await tasksRepository.save(req.body);
+    res.redirect('/tasks');
   }
 
-  function remove(req, res) {
-    const id = req.params.id;
-
-    Task.destroy({ where: { id: id } })
-      .then(res.redirect('/tasks'))
-      .catch((err) => console.log(err))
+  async function remove(req, res) {
+    await tasksRepository.remove(req.params.id);
+    res.redirect('/tasks')
   }
 
-  function edit(req, res) {
-    const id = req.params.id
-
-    Task.findOne({ where: { id: id }, raw: true })
-      .then((data) => {
-        res.render('tasks/edit', { task: data })
-      })
-      .catch((err) => console.log())
+  async function edit(req, res) {
+    const task = await tasksRepository.find(req.params.id);
+    res.render('tasks/edit', { task: task })
   }
 
-  function update(req, res) {
-    console.log(req.body);
-    const id = req.body.id
-
-    const task = {
-      title: req.body.title,
-      description: req.body.description,
-      done: req.body.done === '1' ? true : false
-    }
-
-    Task.update(task, { where: { id: id } })
-      .then(res.redirect('/tasks'))
-      .catch((err) => console.log(err))
+  async function update(req, res) {
+    await tasksRepository.update(req.body.id, req.body);
+    res.redirect('/tasks');
   }
 
-  function updateStatus(req, res) {
-    const id = req.params.id
+  async function updateStatus(req, res) {
+    const done = req.body.done === '0' ? true : false;
 
-    const task = {
-      done: req.body.done === '0' ? true : false,
-    }
+    await tasksRepository.updateStatus(req.params.id, done);
+    res.redirect('/tasks');
+  }
 
- 	  Task.update(task, { where: { id: id } })
-      .then(res.redirect('/tasks'))
-      .catch((err) => console.log())
-    }
-
-    return {
-      create,
-      save,
-      list,
-      remove,
-      edit,
-      update,
-      updateStatus,
-    }
+  return {
+    create,
+    save,
+    list,
+    remove,
+    edit,
+    update,
+    updateStatus,
+  }
 
 }
 
