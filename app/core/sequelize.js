@@ -8,6 +8,7 @@ if (config.default == 'sqlite') {
   sequelize = new Sequelize({
     storage: db.storage,
     dialect: db.dialect,
+    logging: false,
   });
 
 } else {
@@ -15,6 +16,7 @@ if (config.default == 'sqlite') {
   sequelize = new Sequelize(db.database, db.user, db.password, {
     host: db.host,
     dialect: db.dialect,
+    logging: false,
   });
 
 }

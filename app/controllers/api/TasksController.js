@@ -1,43 +1,29 @@
-const Task = require('../../models/Task');
+const Joi = require('joi');
+
+const useTaskRepository = require("../../../app/repositories/TasksRepository");
+const tasksRepository = useTaskRepository(); 
+
 
 function TaskController() {
 
-  function save(req, res) {
-    const task = {
-      title: req.body.title,
-      description: req.body.description,
-      done: false,
-    }
-
-    Task.create(task)
-      .then((data) => {
-        res.status(201).json(data)
-      })
-      .catch((err) => console.log())
-  }
-
-  function list(req, res) {
-    Task.findAll({ raw: true })
-      .then((data) => {
-        res.status(200).json(data);
-      })
-      .catch((err) => console.log(err))
+  async function list(req, res) {
+    const tasks = await tasksRepository.list();
+    res.status(200).json(tasks);
   }
 
   async function show(req, res) {
-    const id = req.params.id;
 
     try {
 
-      const data = await Task.findOne({ where: { id: id }, raw: true });
+      const task = await tasksRepository.find(req.params.id);
 
-      if (!data) {
+      if (!task) {
         return res.status(404).send({
           message: "Tarefa não encontrada."
         })
       }
 
-      res.status(200).json(data);
+      res.status(200).json(task);
 
     } catch (error) {
       res.status(500).json({
@@ -47,101 +33,83 @@ function TaskController() {
     
   }
 
-  function remove(req, res) {
-    const id = req.params.id;
+  async function save(req, res) {
 
-    Task.findOne({ where: { id: id }, raw: true })
-      .then((data) => {
+    const validation = Joi.object({
+      title: Joi.string().min(10).required().messages(),
+      description: Joi.string().min(10).required(),
+      done: Joi.boolean().falsy()
+    });
 
-        if (!data) {
-          return res.status(404).send({
-            message: "Tarefa não encontrada."
-          })
-        }
+    try {
+      await validation.validateAsync(req.body);
 
-        Task.destroy({ where: { id: id } })
-          .then(() => {
-            res.status(200).json({
-              message: "Tarefa removida."
-            })
-          })
-          .catch((err) => console.log())
+      const task = await tasksRepository.save(req.body);
+      res.status(201).json(task);
 
+    } catch (error) {
+      res.status(400).json(error.details)
+    }
+  }
+
+  async function update(req, res) {
+    const task = await tasksRepository.find(req.params.id);
+
+    if (!task) {
+      return res.status(404).send({
+        message: "Tarefa não encontrada."
       })
-      .catch((err) => res.json(err));
+    }
+
+    await tasksRepository.update(req.params.id, req.body);
+
+    res.json({
+      message: "Tarefa atualizada."
+    })
+  }
+
+  async function remove(req, res) {
+    const task = await tasksRepository.find(req.params.id);
+
+    if (!task) {
+      return res.status(404).send({
+        message: "Tarefa não encontrada."
+      })
+    }
+
+    await tasksRepository.remove(req.params.id);
+
+    res.status(200).json({
+      message: "Tarefa removida."
+    })
     
   }
 
-  function update(req, res) {
-    const id = req.params.id
+  async function updateStatus(req, res) {
+    const task = await tasksRepository.find(req.params.id);
 
-    const task = {
-      title: req.body.title,
-      description: req.body.description,
-      done: req.body.done === '1' ? true : false
+    if (!task) {
+      return res.status(404).send({
+        message: "Tarefa não encontrada."
+      })
     }
 
-    Task.findOne({ where: { id: id }, raw: true })
-      .then((data) => {
+    await tasksRepository.updateStatus(req.params.id, req.body.done);
 
-        if (!data) {
-          return res.status(404).send({
-            message: "Tarefa não encontrada."
-          })
-        }
+    res.json({
+      message: "Status da Tarefa atualizado."
+    })
 
-        Task.update(task, { where: { id: id } })
-          .then(() => {
-            res.json({
-              message: "Tarefa atualizada."
-            })
-          })
-          .catch((err) => console.log(err))
-
-      })
-      .catch((err) => res.json(err))
-
-    
   }
 
-  function updateStatus(req, res) {
-    const id = req.params.id
-
-    const task = {
-      done: req.body.done === '1' ? true : false,
-    }
-
-    
-    Task.findOne({ where: { id: id }, raw: true })
-      .then((data) => {
-
-        if (!data) {
-          return res.status(404).send({
-            message: "Tarefa não encontrada."
-          })
-        }
-
-        Task.update(task, { where: { id: id } })
-          .then(() => {
-            res.json({
-              message: "Status da Tarefa atualizado."
-            })
-          })
-          .catch((err) => console.log(err))
-
-      })
-      .catch((err) => res.json(err));
-
-    }
-
-    return {
-      save,
-      list,
-      show,
-      remove,
-      update,
-      updateStatus,
-    }
+  return {
+    save,
+    list,
+    show,
+    remove,
+    update,
+    updateStatus,
+  }
 
 }
 

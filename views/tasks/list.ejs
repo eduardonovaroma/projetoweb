@@ -33,7 +33,7 @@
             <tr class="<%= task.done == 1 ? 'concluido' : '' %>">
                 <td><%= task.title %></td>
                 <td><%= task.description %></td>
-                <td><%= task.done ? "Sim" : "Não" %></td>
+                <td><%= task.done == 1 ? "Sim" : "Não" %></td>
                 <td>
                     <form action="/tasks/update-status/<%= task.id %>" method="POST" style="display: inline-block" onsubmit="return confirmar('Mudar status da tarefa?')">
                         <input type="hidden" name="done" value="<%= task.done %>">

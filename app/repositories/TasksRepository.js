@@ -1,6 +1,6 @@
 const Task = require('../models/Task');
 
-function useTaskRepository() {
+function useTasksRepository() {
 
   async function list() {
     const tasks = await Task.findAll({ raw: true });
@@ -58,4 +58,4 @@ function useTaskRepository() {
 
 }
 
-module.exports = useTaskRepository;
+module.exports = useTasksRepository;
