@@ -1,31 +1,13 @@
 const express = require("express");
+const flash = require('connect-flash');
 const app = express();
 
-app.use(
-  express.urlencoded({
-    extended: true,
-  }),
-)
+const { bootstrapApp } = require('./app/bootstrap');
 
 app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 
-const apiRouter = require("./routes/api");
-const webRouter = require("./routes/web");
-
-require('./app/bootstrap');
-
-const public_path = "public";
-const views_path = "views";
-
-app.use(express.static(public_path));
-app.set("view engine", "ejs");
-app.set("views", [
-    views_path
-]);
-
-app.use('/api', apiRouter);
-app.use('/', webRouter);
-
+bootstrapApp(app);
 
 const PORT = 3000;
 

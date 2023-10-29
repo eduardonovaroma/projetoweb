@@ -24,7 +24,7 @@ if (config.default == 'sqlite') {
 async function createDatabase(sequelize) {
   try {
       await sequelize.authenticate();
-      await sequelize.sync(); // Isso criará as tabelas
+      await sequelize.sync({ alter: true }); // Isso irá criar as tabelas e alterar caso necessário
       
       console.log('Banco de dados criado com sucesso!');
   } catch (error) {

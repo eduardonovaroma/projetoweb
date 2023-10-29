@@ -3,11 +3,11 @@ const { sequelize } = require('../core/sequelize');
 
 const Task = sequelize.define('Task', {
   title: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(100),
     allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   done: {
     type: DataTypes.BOOLEAN,

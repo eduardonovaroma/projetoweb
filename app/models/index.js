@@ -1,8 +1,8 @@
 const Task = require('./Task');
-const Usuario = require('./Usuario');
+const User = require('./User');
 
 
 module.exports = {
   Task,
-  Usuario
+  User
 }
