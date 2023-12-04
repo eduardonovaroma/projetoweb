@@ -36,7 +36,7 @@ function TaskController() {
   async function save(req, res) {
 
     const validation = Joi.object({
-      title: Joi.string().min(10).required().messages(),
+      title: Joi.string().min(10).required(),
       description: Joi.string().min(10).required(),
       done: Joi.boolean().falsy()
     });

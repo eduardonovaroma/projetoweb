@@ -46,7 +46,8 @@ test('testa não permitir a criação de uma task sem título', async () => {
     done: false,
   };
 
-  await http_request.post("tasks", nova_task).catch(error => {
+  await http_request.post("tasks", nova_task)
+  .catch(error => {
     expect(error.response.data[0].message).toEqual('"title" is not allowed to be empty');
     expect(error.response.status).toBe(400);
   });

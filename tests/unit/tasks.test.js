@@ -6,9 +6,10 @@ test('Listando tasks', async () => {
   const tasks = await tasksRepository.list();
 
   expect(tasks.length).toBeGreaterThan(0);
+  expect(tasks).not.toBeNull();
 });
 
-test('Adicionando uma nova Task', async () => {
+test('Salvar task com sucesso', async () => {
 
   const task = await tasksRepository.save({
     title: "Fazer compras",
@@ -16,6 +17,16 @@ test('Adicionando uma nova Task', async () => {
   });
 
   expect(task.id).not.toBeNull();
+});
+
+test('Não perimitir Task com o título vazio', async () => {
+
+  const task = await tasksRepository.save({
+    title: "",
+    description: "Comprar café, pão e leite"
+  });
+
+  expect(task).toBeNull();
 });
 
 test('Encontrando Task pelo ID', async () => {
