@@ -27,7 +27,7 @@ function TaskController() {
 
     } catch (error) {
       res.status(500).json({
-        message: "Deu M capitão!"
+        message: "Task não encontrada"
       });
     }
     
