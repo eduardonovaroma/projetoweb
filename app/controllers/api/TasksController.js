@@ -42,7 +42,7 @@ function TaskController() {
     });
 
     try {
-      await validation.validateAsync(req.body);
+      // await validation.validateAsync(req.body);
 
       const task = await tasksRepository.save(req.body);
       res.status(201).json(task);
