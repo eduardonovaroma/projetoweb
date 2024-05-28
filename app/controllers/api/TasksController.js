@@ -1,8 +1,6 @@
 const Joi = require('joi');
 
-const useTaskRepository = require("../../../app/repositories/TasksRepository");
-const tasksRepository = useTaskRepository(); 
-
+const tasksRepository = require("../../repositories/TasksRepository");
 
 function TaskController() {
 

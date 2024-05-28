@@ -1,7 +1,5 @@
 const Task = require('../models/Task');
-const useTasksRepository = require("../repositories/TasksRepository");
-
-const tasksRepository = useTasksRepository(); 
+const tasksRepository = require("../repositories/TasksRepository");
 
 function TaskController() {
 
