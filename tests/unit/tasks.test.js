@@ -1,6 +1,6 @@
-const useTaskRepository = require("../../app/repositories/TasksRepository");
+const tasksRepository = require("../../app/repositories/TasksRepository");
 
-const tasksRepository = useTaskRepository(); 
+// const tasksRepository = useTaskRepository(); 
 
 test('Listando tasks', async () => {
   const tasks = await tasksRepository.list();
