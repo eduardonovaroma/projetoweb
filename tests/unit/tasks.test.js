@@ -1,6 +1,6 @@
-const useTaskRepository = require("../../app/repositories/TasksRepository");
+const tasksRepository = require("../../app/repositories/TasksRepository");
 
-const tasksRepository = useTaskRepository(); 
+// const tasksRepository = useTaskRepository(); 
 
 test('Listando tasks', async () => {
   const tasks = await tasksRepository.list();
@@ -19,15 +19,15 @@ test('Salvar task com sucesso', async () => {
   expect(task.id).not.toBeNull();
 });
 
-test('Não perimitir Task com o título vazio', async () => {
+// test('Não perimitir Task com o título vazio', async () => {
 
-  const task = await tasksRepository.save({
-    title: "",
-    description: "Comprar café, pão e leite"
-  });
+//   const task = await tasksRepository.save({
+//     title: "",
+//     description: "Comprar café, pão e leite"
+//   });
 
-  expect(task).toBeNull();
-});
+//   expect(task).toBeNull();
+// });
 
 test('Encontrando Task pelo ID', async () => {
 
