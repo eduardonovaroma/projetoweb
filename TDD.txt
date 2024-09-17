@@ -1,0 +1,1 @@
+Crie uma função que recebe um valor, a quantidade de parcelas e a data de vencimento inicial de um pagamento. Essa função deve retornar as parcelas com seus respectivos valores, parcelas e datas de vencimento.
